@@ -195,7 +195,7 @@ Treat it accordingly if you're relying on it for anything sensitive.
 
 <div align="center">
 
-### `> built by Nishil — cybersecurity, OSINT & CLI tooling`
+### `> built by Nishil,Naitik,Aastik — cybersecurity, OSINT & CLI tooling`
 
 [GitHub](https://github.com/realnishil) · [X/Twitter](https://x.com/notnishil) · [LinkedIn](https://linkedin.com/in/nishilbhimani)
 
