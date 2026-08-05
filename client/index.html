@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FluxDrop - Encrypted P2P File Transfer</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Local libraries (no CDN dependency, works offline) -->
+  <script src="qrcode.min.js" defer></script>
+  <script src="zxing.min.js" defer></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-container">
+        <div class="logo-icon">⚡</div>
+        <div>
+          <h1>FluxDrop</h1>
+          <p class="subtitle">Direct P2P • E2E Encrypted • No Upload</p>
+        </div>
+      </div>
+      <div id="signal-badge" class="badge status-disconnected">
+        <span class="dot"></span>
+        <span id="signal-text">Not Connected</span>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <div class="tabs">
+      <button id="tab-send" class="tab-btn active" onclick="switchTab('send')">
+        📤 Send File
+      </button>
+      <button id="tab-receive" class="tab-btn" onclick="switchTab('receive')">
+        📥 Receive File
+      </button>
+    </div>
+
+    <!-- Sender Section -->
+    <section id="panel-send" class="panel">
+      <!-- Step Indicator -->
+      <div class="steps">
+        <div class="step active" id="send-step-1">
+          <div class="step-num">1</div>
+          <div class="step-label">Start Session</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="send-step-2">
+          <div class="step-num">2</div>
+          <div class="step-label">Pair Devices</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="send-step-3">
+          <div class="step-num">3</div>
+          <div class="step-label">Send File</div>
+        </div>
+      </div>
+
+      <div class="grid-layout">
+        <!-- Left: QR Generation -->
+        <div class="card center-content">
+          <h3>Pairing QR Code</h3>
+          <p class="card-subtitle">Receiver scans this to pair with you</p>
+
+          <div class="qr-wrapper">
+            <canvas id="qr-canvas" class="hidden"></canvas>
+            <div id="qr-placeholder" class="placeholder-box">
+              <div class="placeholder-icon">📱</div>
+              <p>Start a session to generate your pairing QR</p>
+            </div>
+            <div id="qr-connected-overlay" class="qr-connected-overlay hidden">
+              <div class="overlay-icon">🔗</div>
+              <p class="overlay-text">In Connection</p>
+            </div>
+          </div>
+
+          <div id="qr-info" class="qr-info hidden">
+            <span id="frame-counter" class="counter-tag">Frame 0/0</span>
+          </div>
+
+          <button id="btn-generate-qr" class="btn primary-btn" onclick="startSenderSession()">
+            ✨ Start Session & Generate QR
+          </button>
+
+          <div id="sender-connection-note" class="connection-note hidden">
+            <p id="sender-conn-text">Waiting for receiver to scan...</p>
+          </div>
+        </div>
+
+        <!-- Right: File Selection -->
+        <div class="card space-y">
+          <h3>Select File to Transfer</h3>
+
+          <div id="drop-zone" class="drop-zone" onclick="document.getElementById('file-input').click()">
+            <input type="file" id="file-input" style="display: none" onchange="handleFileSelect(event)" />
+            <div class="upload-icon">📁</div>
+            <p id="file-label" class="file-label">Click here or drag & drop a file</p>
+            <p id="file-size" class="file-subtext">Any file type — No size limit</p>
+          </div>
+
+          <button id="btn-send-file" class="btn success-btn" disabled onclick="sendSelectedFile()">
+            🚀 Stream Encrypted File
+          </button>
+
+          <!-- Transfer Progress Card -->
+          <div id="sender-progress-card" class="progress-card hidden">
+            <div class="progress-header">
+              <span id="sender-status-text">Encrypting & Sending...</span>
+              <span id="sender-percent-text" class="percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="sender-progress-bar" class="progress-bar-fill"></div>
+            </div>
+            <div class="progress-footer">
+              <span id="sender-bytes-text">0 MB / 0 MB</span>
+              <span id="sender-speed-text" class="speed font-mono">0 MB/s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Receiver Section -->
+    <section id="panel-receive" class="panel hidden">
+      <!-- Step Indicator -->
+      <div class="steps">
+        <div class="step active" id="recv-step-1">
+          <div class="step-num">1</div>
+          <div class="step-label">Scan QR</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="recv-step-2">
+          <div class="step-num">2</div>
+          <div class="step-label">Connect</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step" id="recv-step-3">
+          <div class="step-num">3</div>
+          <div class="step-label">Save File</div>
+        </div>
+      </div>
+
+      <div class="grid-layout">
+        <!-- Left: Camera Scanner -->
+        <div class="card center-content">
+          <h3>Scan Pairing QR</h3>
+          <p class="card-subtitle">Point camera at sender's screen</p>
+
+          <div class="scanner-wrapper">
+            <video id="scanner-video" class="hidden"></video>
+            <div id="scanner-placeholder" class="placeholder-box">
+              <div class="placeholder-icon">📷</div>
+              <p>Start camera to scan the pairing QR</p>
+            </div>
+          </div>
+
+          <div class="progress-bar-bg width-full">
+            <div id="scan-progress-bar" class="progress-bar-fill" style="width: 0%"></div>
+          </div>
+          <p id="scan-progress-text" class="card-subtitle font-mono">Scan Progress: 0%</p>
+
+          <button id="btn-start-camera" class="btn primary-btn" onclick="startScannerCamera()">
+            📷 Start Camera Scanner
+          </button>
+        </div>
+
+        <!-- Right: Status & Save -->
+        <div class="card space-y">
+          <h3>Connection Status</h3>
+          <div class="status-box">
+            <p>Peer: <strong id="receiver-peer-status" class="highlight">Idle</strong></p>
+            <p>Security: <strong class="success-text">🔒 AES-256-GCM • ECDH</strong></p>
+          </div>
+
+          <div id="recv-connection-note" class="connection-note hidden">
+            <p id="recv-conn-text">Paired! Waiting for file...</p>
+          </div>
+
+          <!-- Receiver Transfer Progress Card -->
+          <div id="receiver-progress-card" class="progress-card hidden">
+            <div class="progress-header">
+              <span id="receiver-status-text">Receiving Encrypted File...</span>
+              <span id="receiver-percent-text" class="percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="receiver-progress-bar" class="progress-bar-fill"></div>
+            </div>
+            <div class="progress-footer">
+              <span id="receiver-bytes-text">0 MB / 0 MB</span>
+              <span id="receiver-speed-text" class="speed font-mono">0 MB/s</span>
+            </div>
+          </div>
+
+          <!-- Save Download Button -->
+          <div id="download-box" class="download-box hidden">
+            <div class="file-ready-banner">
+              <span class="ready-icon">✅</span>
+              <div>
+                <p id="received-filename" class="success-text font-bold">File Ready!</p>
+                <p id="received-filesize" class="file-subtext">0 MB</p>
+              </div>
+            </div>
+            <button class="btn success-btn" onclick="downloadReceivedFile()">
+              💾 Save File
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>

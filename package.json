@@ -1,0 +1,12 @@
+{
+  "name": "fluxdrop",
+  "private": true,
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js",
+    "tunnel": "npx -y cloudflared tunnel --url http://localhost:4000"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}

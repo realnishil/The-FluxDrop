@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FluxDrop - Encrypted P2P File Transfer</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="bg-animation">
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+    <div class="bg-orb orb-4"></div>
+    <div class="bg-orb orb-5"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="home-nav">
+    <div class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      <span>FluxDrop</span>
+    </div>
+    <div class="nav-links">
+      <a href="#what">What</a>
+      <a href="#how">How</a>
+      <a href="#tech">Tech</a>
+      <a href="#why">Why</a>
+      <a href="/app" class="nav-cta">Launch App →</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🔒 End-to-End Encrypted • Peer-to-Peer</div>
+      <h1 class="hero-title">Transfer Files <span class="gradient-text">Directly</span><br>Between Devices</h1>
+      <p class="hero-subtitle">No uploads. No servers. No limits. Files stream encrypted directly from sender to receiver using WebRTC and ECDH key exchange.</p>
+      <div class="hero-buttons">
+        <a href="/app" class="btn-hero primary">🚀 Launch FluxDrop</a>
+        <a href="#how" class="btn-hero secondary">How it works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>0</strong><span>Servers storing your files</span></div>
+        <div class="stat"><strong>∞</strong><span>File size limit</span></div>
+        <div class="stat"><strong>256</strong><span>Bit AES encryption</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="device-card sender-card">
+        <div class="device-icon">💻</div>
+        <div class="device-label">Sender</div>
+        <div class="device-file">📄 photo.zip</div>
+      </div>
+      <div class="connection-line">
+        <div class="connection-pulse"></div>
+        <span class="connection-label">AES-256</span>
+      </div>
+      <div class="device-card receiver-card">
+        <div class="device-icon">📱</div>
+        <div class="device-label">Receiver</div>
+        <div class="device-file">📄 photo.zip</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What is FluxDrop -->
+  <section id="what" class="section fade-in-up">
+    <div class="section-header">
+      <span class="section-tag">01 — Overview</span>
+      <h2>What is FluxDrop?</h2>
+    </div>
+    <div class="section-body">
+      <p class="section-lead">FluxDrop is a browser-based, peer-to-peer file transfer tool that sends files <strong>directly between two devices</strong> — without uploading to any server, cloud, or third-party service.</p>
+      <div class="feature-grid">
+        <div class="feature-card fade-in-up">
+          <div class="feature-icon">🌐</div>
+          <h3>Browser-Native</h3>
+          <p>Runs entirely in your browser. No app install, no plugins, no extensions. Just open a URL.</p>
+        </div>
+        <div class="feature-card fade-in-up">
+          <div class="feature-icon">🔒</div>
+          <h3>End-to-End Encrypted</h3>
+          <p>Files are encrypted with AES-256-GCM before leaving the sender's device. Only the receiver can decrypt them.</p>
+        </div>
+        <div class="feature-card fade-in-up">
+          <div class="feature-icon">📡</div>
+          <h3>True P2P</h3>
+          <p>Files travel directly from sender to receiver over WebRTC. No intermediate server stores or relays file data.</p>
+        </div>
+        <div class="feature-card fade-in-up">
+          <div class="feature-icon">♾️</div>
+          <h3>No Size Limits</h3>
+          <p>Transfer any file of any size. No 2GB cap, no upload queue, no waiting for server processing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="section section-alt fade-in-up">
+    <div class="section-header">
+      <span class="section-tag">02 — Process</span>
+      <h2>How It Works</h2>
+    </div>
+    <div class="steps-container">
+      <div class="how-step fade-in-up">
+        <div class="how-step-num">1</div>
+        <div class="how-step-content">
+          <h3>Sender Generates QR</h3>
+          <p>The sender clicks "Start Session" and FluxDrop generates an ECDH P-256 key pair. The public key is encoded into a sequence of animated QR frames displayed on screen.</p>
+        </div>
+      </div>
+      <div class="how-step fade-in-up">
+        <div class="how-step-num">2</div>
+        <div class="how-step-content">
+          <h3>Receiver Scans QR</h3>
+          <p>The receiver points their phone camera at the animated QR. The app collects all frames, reassembles the sender's public key, and generates its own key pair.</p>
+        </div>
+      </div>
+      <div class="how-step fade-in-up">
+        <div class="how-step-num">3</div>
+        <div class="how-step-content">
+          <h3>Key Exchange</h3>
+          <p>Both devices independently derive the <strong>same AES-256 key</strong> using ECDH (Diffie-Hellman). The receiver sends their public key back via WebSocket signaling. No key ever travels in plaintext.</p>
+        </div>
+      </div>
+      <div class="how-step fade-in-up">
+        <div class="how-step-num">4</div>
+        <div class="how-step-content">
+          <h3>P2P Connection</h3>
+          <p>WebRTC establishes a direct encrypted data channel between the two devices. The signaling server is no longer needed — it only helped with the initial handshake.</p>
+        </div>
+      </div>
+      <div class="how-step fade-in-up">
+        <div class="how-step-num">5</div>
+        <div class="how-step-content">
+          <h3>Encrypted File Stream</h3>
+          <p>The sender reads the file in 64KB chunks, encrypts each chunk with a fresh random IV, and streams it directly to the receiver. SHA-256 integrity is verified on completion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Stack -->
+  <section id="tech" class="section fade-in-up">
+    <div class="section-header">
+      <span class="section-tag">03 — Technology</span>
+      <h2>Technology Stack</h2>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">🔗</div>
+        <h3>WebRTC</h3>
+        <p>Browser-native P2P protocol for direct device-to-device data transfer. Uses ICE/STUN for NAT traversal.</p>
+        <div class="tech-tag">Data Channel</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🔐</div>
+        <h3>WebCrypto API</h3>
+        <p>ECDH P-256 key exchange + AES-256-GCM authenticated encryption. Fresh random IV per chunk.</p>
+        <div class="tech-tag">ECDH + AES-GCM</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">📱</div>
+        <h3>Animated QR</h3>
+        <p>Multi-frame QR encoding using qrcode-generator. ZXing library for camera scanning. Sequence-based reconstruction.</p>
+        <div class="tech-tag">qrcode-generator + ZXing</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">⚡</div>
+        <h3>WebSocket Signaling</h3>
+        <p>Node.js + ws library. Relays connection metadata only (offers, answers, ICE candidates). Never sees file data.</p>
+        <div class="tech-tag">Node.js + ws</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">✅</div>
+        <h3>SHA-256 Integrity</h3>
+        <p>Cryptographic hash computed on sender, verified on receiver. Detects any corruption in transit.</p>
+        <div class="tech-tag">Integrity Verification</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">🌐</div>
+        <h3>Cloudflare Tunnel</h3>
+        <p>HTTPS reverse proxy for mobile access. Provides secure context required by WebCrypto on phones.</p>
+        <div class="tech-tag">HTTPS Proxy</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why It's Better -->
+  <section id="why" class="section section-alt fade-in-up">
+    <div class="section-header">
+      <span class="section-tag">04 — Comparison</span>
+      <h2>Why It's Better</h2>
+    </div>
+    <div class="comparison-table">
+      <div class="comparison-row comparison-header">
+        <div class="comparison-cell">Feature</div>
+        <div class="comparison-cell fluxdrop-cell">FluxDrop</div>
+        <div class="comparison-cell">Cloud Storage</div>
+        <div class="comparison-cell">Messaging Apps</div>
+        <div class="comparison-cell">AirDrop</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">Files stored on servers</div>
+        <div class="comparison-cell fluxdrop-cell">❌ Never</div>
+        <div class="comparison-cell">✅ Yes</div>
+        <div class="comparison-cell">✅ Yes</div>
+        <div class="comparison-cell">❌ No</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">End-to-end encrypted</div>
+        <div class="comparison-cell fluxdrop-cell">✅ AES-256</div>
+        <div class="comparison-cell">⚠️ Varies</div>
+        <div class="comparison-cell">✅ Yes</div>
+        <div class="comparison-cell">✅ Yes</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">File size limit</div>
+        <div class="comparison-cell fluxdrop-cell">♾️ No server limit</div>
+        <div class="comparison-cell">2GB</div>
+        <div class="comparison-cell">2GB</div>
+        <div class="comparison-cell">No limit</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">Cross-platform</div>
+        <div class="comparison-cell fluxdrop-cell">✅ Any browser</div>
+        <div class="comparison-cell">✅ Yes</div>
+        <div class="comparison-cell">✅ Yes</div>
+        <div class="comparison-cell">❌ Apple only</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">No account needed</div>
+        <div class="comparison-cell fluxdrop-cell">✅ Zero signup</div>
+        <div class="comparison-cell">❌ Login required</div>
+        <div class="comparison-cell">❌ Phone number</div>
+        <div class="comparison-cell">✅ Yes</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">Works over internet</div>
+        <div class="comparison-cell fluxdrop-cell">✅ Yes</div>
+        <div class="comparison-cell">✅ Yes</div>
+        <div class="comparison-cell">✅ Yes</div>
+        <div class="comparison-cell">❌ Local only</div>
+      </div>
+      <div class="comparison-row">
+        <div class="comparison-cell">No app install</div>
+        <div class="comparison-cell fluxdrop-cell">✅ Browser only</div>
+        <div class="comparison-cell">⚠️ App/Web</div>
+        <div class="comparison-cell">❌ App required</div>
+        <div class="comparison-cell">❌ Built-in OS</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Special Features -->
+  <section class="section fade-in-up">
+    <div class="section-header">
+      <span class="section-tag">05 — Features</span>
+      <h2>Special Features</h2>
+    </div>
+    <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">♾️</div>
+          <h3>No Server Limits</h3>
+          <p>No 2GB server cap, no upload queue. Files stream directly between devices. Practical limit depends on device memory (recommended under 2GB).</p>
+        </div>
+      <div class="feature-card">
+        <div class="feature-icon">🧊</div>
+        <h3>QR Freeze on Connect</h3>
+        <p>When P2P connects, the animated QR freezes and shows a connection overlay. Resumes automatically if disconnected.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📥</div>
+        <h3>Drag & Drop</h3>
+        <p>Drag files directly onto the drop zone — no need to browse through file dialogs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Real-Time Progress</h3>
+        <p>Live progress bar, byte counter, and transfer speed (MB/s) update in real-time during transfer.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>Auto-Reconnect</h3>
+        <p>WebSocket signaling auto-reconnects up to 5 times with exponential backoff if the connection drops.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Input Validation</h3>
+        <p>Server validates room IDs, roles, and prevents path traversal. Heartbeat pings detect dead connections.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section fade-in-up">
+    <h2>Ready to Transfer?</h2>
+    <p>No signup. No install. No limits. Just open and send.</p>
+    <a href="/app" class="btn-hero primary">🚀 Launch FluxDrop</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="home-footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <div class="logo-icon">⚡</div>
+        <span>FluxDrop</span>
+      </div>
+      <p>Direct P2P • E2E Encrypted • No Upload • No Limits</p>
+      <p class="footer-tech">WebRTC • WebCrypto (ECDH P-256 + AES-256-GCM) • WebSocket • Animated QR • SHA-256</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    // Nav background on scroll
+    window.addEventListener('scroll', () => {
+      const nav = document.querySelector('.home-nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('nav-scrolled');
+      } else {
+        nav.classList.remove('nav-scrolled');
+      }
+    });
+
+    // Scroll-triggered fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), index * 100);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-in-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

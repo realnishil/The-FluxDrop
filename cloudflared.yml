@@ -1,0 +1,3 @@
+# Cloudflare Quick Tunnel config for FluxDrop 2.0
+# Proxies both HTTP (static files) and WebSocket (signaling) to the unified server
+url: http://localhost:4000

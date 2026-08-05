@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#10b981;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer circle background -->
+  <circle cx="60" cy="60" r="55" fill="none" stroke="url(#logoGradient)" stroke-width="3" opacity="0.3"/>
+  
+  <!-- Drop shape (represents "Drop" in FluxDrop) -->
+  <path d="M 60 20 
+           C 60 20, 85 55, 85 70
+           C 85 82, 74 92, 60 92
+           C 46 92, 35 82, 35 70
+           C 35 55, 60 20, 60 20 Z" 
+        fill="url(#logoGradient)" 
+        filter="url(#glow)"
+        opacity="0.9"/>
+  
+  <!-- Inner flow lines (represents "Flux" - data flow) -->
+  <path d="M 50 65 L 55 70 L 70 55" 
+        stroke="#0f172a" 
+        stroke-width="4" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        fill="none"/>
+  
+  <!-- Small accent dots (representing P2P nodes) -->
+  <circle cx="45" cy="62" r="3" fill="#0f172a"/>
+  <circle cx="75" cy="58" r="3" fill="#0f172a"/>
+</svg>
