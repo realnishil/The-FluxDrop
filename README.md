@@ -198,6 +198,6 @@ Treat it accordingly if you're relying on it for anything sensitive.
 
 [GitHub](https://github.com/realnishil) · [X/Twitter](https://x.com/notnishil) · [LinkedIn](https://linkedin.com/in/nishilbhimani)
 
-**License:** [MIT](LICENSE)
+**License:** [Apache 2.0](LICENSE)
 
 </div>
